@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.content.res.Configuration;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -181,6 +182,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         swDynamicColor.setOnCheckedChangeListener((buttonView, isChecked) -> {
             prefMgr.setEnableDynamicColor(isChecked);
+                onThemeSwitchClick(buttonView);
             Toast.makeText(context, R.string.apply_on_restart, Toast.LENGTH_SHORT).show();
         });
 
@@ -226,6 +228,20 @@ public class SettingsActivity extends AppCompatActivity {
         super.onResume();
         updateUI();
     }
+    
+     public void onThemeSwitchClick(View view) {
+
+        int currentNightMode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+
+        if (currentNightMode == Configuration.UI_MODE_NIGHT_NO) {
+            setTheme(R.style.Theme_Amarok_Dark);
+        } else {
+            setTheme(R.style.Theme_Amarok);
+        }
+
+        recreate();
+    }
+
 
     public void switchAppHider(View view) {
         startActivity(new Intent(this, SwitchAppHiderActivity.class));
